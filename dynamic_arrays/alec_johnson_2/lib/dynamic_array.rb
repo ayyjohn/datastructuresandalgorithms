@@ -49,9 +49,9 @@ class DynamicArray
 
   # O(n): has to shift over all the elements.
   def unshift(val)
-    prev_length = @length
+    prev_length = @length - 1
     resize! if @length >= @capacity
-    prev_length.times do |i|
+    prev_length.downto(0) do |i|
       self[i + 1] = self[i]
     end
     @length += 1
@@ -75,11 +75,12 @@ class DynamicArray
 
   def resize!
     old_store = @store
+    old_length = @length
     @store = StaticArray.new(@capacity * 2)
     @length = 0
     @capacity *= 2
-    old_store.each do |el|
-      self.push(el)
+    old_length.times do |i|
+      self.push(old_store[i])
     end
   end
 end
