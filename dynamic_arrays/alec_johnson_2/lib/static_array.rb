@@ -1,6 +1,7 @@
 # This class just dumbs down a regular Array to be staticly sized.
 class StaticArray
   def initialize(length)
+    @store = Array.new(length)
   end
 
   # O(1)
