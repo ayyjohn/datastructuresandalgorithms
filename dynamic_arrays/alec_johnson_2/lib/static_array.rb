@@ -26,4 +26,8 @@ class StaticArray
   def validate!(index)
     raise "index out of bounds" unless index < @length && index >= 0
   end
+
+  def inspect
+    @store
+  end
 end
