@@ -16,10 +16,13 @@ class DynamicArray
 
   # O(1)
   def []=(index, value)
+    check_index!(index)
+    @store[index] = value
   end
 
   # O(1)
   def pop
+
   end
 
   # O(1) ammortized; O(n) worst case. Variable because of the possible
