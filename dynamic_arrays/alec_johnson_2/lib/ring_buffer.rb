@@ -47,6 +47,10 @@ class RingBuffer
 
   # O(1) ammortized
   def unshift(val)
+    resize! if @length >= @capacity
+    @start_index = (@start_index - 1) % @capacity
+    self[0] = val
+    @length += 1
   end
 
   protected
@@ -55,7 +59,7 @@ class RingBuffer
   attr_writer :length
 
   def check_index!(index)
-    raise "index out of bounds" unless index < @length && index >= 0
+    raise "index out of bounds" unless @length > (index - @start_index)
   end
 
   def resize!
