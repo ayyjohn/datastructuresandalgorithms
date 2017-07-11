@@ -34,7 +34,6 @@ class RingBuffer
     resize! if @length >= @capacity
     self[@length] = val
     @length += 1
-    p @store, @start_index
   end
 
   # O(1)
@@ -52,7 +51,6 @@ class RingBuffer
     @start_index = (@start_index - 1) % @capacity
     self[0] = val
     @length += 1
-    p @store, @start_index
   end
 
   protected
@@ -68,13 +66,14 @@ class RingBuffer
     old_store = @store
     old_length = @length
     old_start_index = @start_index
+    old_capacity = @capacity
     @length = 0
     @start_index = 0
-    @store = StaticArray.new(@capacity * 2)
-    old_length.times do |i|
-      self.push(old_store[(old_start_index + i) % @capacity])
-    end
     @capacity = @capacity * 2
+    @store = StaticArray.new(@capacity)
+    old_length.times do |i|
+      self.push(old_store[(old_start_index + i) % old_capacity])
+    end
   end
 
   def physical_index(index)
