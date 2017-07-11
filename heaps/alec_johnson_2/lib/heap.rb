@@ -1,3 +1,5 @@
+require 'byebug'
+
 class BinaryMinHeap
   def initialize(&prc)
     @store = Array.new
@@ -11,6 +13,8 @@ class BinaryMinHeap
   def extract
     @store[0], @store[count - 1] = @store[count - 1], @store[0]
     extracted = @store.pop
+    BinaryMinHeap.heapify_down(@store, 0, count, &@prc)
+    extracted
   end
 
   def peek
@@ -19,7 +23,8 @@ class BinaryMinHeap
 
   def push(val)
     @store << val
-    BinaryMinHeap.heapify_up(@store, count - 1, @prc)
+    BinaryMinHeap.heapify_up(@store, count - 1, count, &@prc)
+    p @store
   end
 
   def self.child_indices(len, parent_index)
@@ -44,6 +49,28 @@ class BinaryMinHeap
     # child, because every element needs to be smaller than its children
     # thus if we swap with the larger child, we'll end up with a violated
     # heap property after the swap.
+    prc ||= Proc.new { |x, y| x <=> y }
+    children = BinaryMinHeap.child_indices(len, parent_index)
+    return array unless children
+    left_child = array[children[0]]
+    right_child = children[1] ? array[children[1]] : "empty"
+    p [left_child, right_child]
+    swap_child_index = (right_child != "empty" && prc.call(left_child, right_child) > 0) ? children[1] : children[0]
+    p prc.call(left_child, right_child)
+    swap_child = array[swap_child_index]
+    parent = array[parent_index]
+    while prc.call(parent, swap_child) > 0
+      array[parent_index], array[swap_child_index] = array[swap_child_index], array[parent_index]
+      parent_index = swap_child_index
+      children = BinaryMinHeap.child_indices(len, parent_index)
+      return array unless children
+      left_child = array[children[0]]
+      right_child = children[1] ? array[children[1]] : "empty"
+      swap_child_index = (right_child != "empty" && prc.call(left_child, right_child) > 0) ? children[1] : children[0]
+      swap_child = array[swap_child_index]
+      parent = array[parent_index]
+    end
+    array
   end
 
   def self.heapify_up(array, child_index, len = array.length, &prc)
@@ -57,6 +84,8 @@ class BinaryMinHeap
       child_index = parent_index
       break if child_index == 0
       parent_index = BinaryMinHeap.parent_index(child_index)
+      parent = array[parent_index]
+      child = array[child_index]
     end
     array
   end
