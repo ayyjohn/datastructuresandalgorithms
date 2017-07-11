@@ -19,6 +19,7 @@ class BinaryMinHeap
 
   def push(val)
     @store << val
+    BinaryMinHeap.heapify_up(@store, count - 1, @prc)
   end
 
   def self.child_indices(len, parent_index)
@@ -38,14 +39,26 @@ class BinaryMinHeap
     (child_index - 1) / 2
   end
 
-  def self.heapify_down(array, parent_idx, len = array.length, &prc)
+  def self.heapify_down(array, parent_index, len = array.length, &prc)
     # since it's a min heap we need to always swap with the smaller
     # child, because every element needs to be smaller than its children
     # thus if we swap with the larger child, we'll end up with a violated
     # heap property after the swap.
   end
 
-  def self.heapify_up(array, child_idx, len = array.length, &prc)
+  def self.heapify_up(array, child_index, len = array.length, &prc)
+    prc ||= Proc.new { |x, y| x <=> y }
+    return array if child_index == 0
+    parent_index = BinaryMinHeap.parent_index(child_index)
+    child = array[child_index]
+    parent = array[parent_index]
+    while prc.call(parent, child) > 0
+      array[child_index], array[parent_index] = array[parent_index], array[child_index]
+      child_index = parent_index
+      break if child_index == 0
+      parent_index = BinaryMinHeap.parent_index(child_index)
+    end
+    array
   end
 
   protected
