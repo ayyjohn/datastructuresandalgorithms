@@ -21,10 +21,6 @@ class BinaryMinHeap
     @store << val
   end
 
-  protected
-  attr_accessor :prc, :store
-
-  public
   def self.child_indices(len, parent_index)
     left_child = parent_index * 2 + 1
     right_child = parent_index * 2 + 2
@@ -47,4 +43,9 @@ class BinaryMinHeap
 
   def self.heapify_up(array, child_idx, len = array.length, &prc)
   end
+  
+  protected
+
+  attr_accessor :prc, :store
+
 end
