@@ -24,7 +24,6 @@ class BinaryMinHeap
   def push(val)
     @store << val
     BinaryMinHeap.heapify_up(@store, count - 1, count, &@prc)
-    p @store
   end
 
   def self.child_indices(len, parent_index)
@@ -54,9 +53,7 @@ class BinaryMinHeap
     return array unless children
     left_child = array[children[0]]
     right_child = children[1] ? array[children[1]] : "empty"
-    p [left_child, right_child]
     swap_child_index = (right_child != "empty" && prc.call(left_child, right_child) > 0) ? children[1] : children[0]
-    p prc.call(left_child, right_child)
     swap_child = array[swap_child_index]
     parent = array[parent_index]
     while prc.call(parent, swap_child) > 0
