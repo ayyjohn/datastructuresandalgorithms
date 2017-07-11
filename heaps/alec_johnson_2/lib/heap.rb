@@ -44,7 +44,7 @@ class BinaryMinHeap
     (child_index - 1) / 2
   end
 
-  def self.heapify_down(array, parent_index, len = array.length, &prc)
+  def self.heapify_down!(array, parent_index, len = array.length, &prc)
     # since it's a min heap we need to always swap with the smaller
     # child, because every element needs to be smaller than its children
     # thus if we swap with the larger child, we'll end up with a violated
@@ -73,7 +73,7 @@ class BinaryMinHeap
     array
   end
 
-  def self.heapify_up(array, child_index, len = array.length, &prc)
+  def self.heapify_up!(array, child_index, len = array.length, &prc)
     prc ||= Proc.new { |x, y| x <=> y }
     return array if child_index == 0
     parent_index = BinaryMinHeap.parent_index(child_index)
