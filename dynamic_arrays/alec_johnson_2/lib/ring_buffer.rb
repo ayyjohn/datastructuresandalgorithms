@@ -38,6 +38,11 @@ class RingBuffer
 
   # O(1)
   def shift
+    raise "index out of bounds" if @length < 1
+    shifted = self[0]
+    @length -= 1
+    @start_index += 1
+    shifted
   end
 
   # O(1) ammortized
