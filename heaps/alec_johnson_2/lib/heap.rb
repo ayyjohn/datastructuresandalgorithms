@@ -1,17 +1,24 @@
 class BinaryMinHeap
   def initialize(&prc)
+    @store = Array.new
+    @prc = prc
   end
 
   def count
+    @store.length
   end
 
   def extract
+    @store[0], @store[count - 1] = @store[count - 1], @store[0]
+    extracted = @store.pop
   end
 
   def peek
+    @store[0]
   end
 
   def push(val)
+    @store << val
   end
 
   protected
@@ -19,6 +26,15 @@ class BinaryMinHeap
 
   public
   def self.child_indices(len, parent_index)
+    left_child = parent_index * 2 + 1
+    right_child = parent_index * 2 + 2
+    if right_child >= len && left_child >= len
+      return nil
+    elsif right_child >= len
+      return [left_child]
+    else
+      return [left_child, right_child]
+    end
   end
 
   def self.parent_index(child_index)
