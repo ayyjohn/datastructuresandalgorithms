@@ -12,18 +12,28 @@ class RingBuffer
 
   # O(1)
   def [](index)
+    check_index!(physical_index(index))
+    @store[physical_index(index)]
   end
 
   # O(1)
   def []=(index, val)
+    @store[physical_index(index)] = val
   end
 
   # O(1)
   def pop
+    raise "index out of bounds" if @length < 1
+    popped = self[@length - 1]
+    @length -= 1
+    popped
   end
 
   # O(1) ammortized
   def push(val)
+    resize! if @length >= @capacity
+    self[@length] = val
+    @length += 1
   end
 
   # O(1)
@@ -44,5 +54,17 @@ class RingBuffer
   end
 
   def resize!
+    old_store = @store
+    old_capacity = @capacity
+    @length = 0
+    @capacity = @capacity * 2
+    @store = StaticArray.new(@capacity)
+    old_capacity.times do |i|
+      self.push(old_store[i])
+    end
+  end
+
+  def physical_index(index)
+    (index + @start_index) % @capacity
   end
 end
