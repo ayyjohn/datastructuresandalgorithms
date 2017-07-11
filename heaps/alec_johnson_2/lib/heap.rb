@@ -39,11 +39,15 @@ class BinaryMinHeap
   end
 
   def self.heapify_down(array, parent_idx, len = array.length, &prc)
+    # since it's a min heap we need to always swap with the smaller
+    # child, because every element needs to be smaller than its children
+    # thus if we swap with the larger child, we'll end up with a violated
+    # heap property after the swap.
   end
 
   def self.heapify_up(array, child_idx, len = array.length, &prc)
   end
-  
+
   protected
 
   attr_accessor :prc, :store
