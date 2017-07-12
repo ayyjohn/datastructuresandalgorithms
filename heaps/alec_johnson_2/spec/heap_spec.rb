@@ -22,14 +22,14 @@ describe BinaryMinHeap do
 
   describe "heapify down and up" do
     it "heapify_downs correctly" do
-      expect(BinaryMinHeap.heapify_down([7, 4, 5], 0)).to eq([4, 7, 5])
-      expect(BinaryMinHeap.heapify_down([7, 4, 5, 6, 8], 0))
+      expect(BinaryMinHeap.heapify_down!([7, 4, 5], 0)).to eq([4, 7, 5])
+      expect(BinaryMinHeap.heapify_down!([7, 4, 5, 6, 8], 0))
         .to eq([4, 6, 5, 7, 8])
     end
 
     it "heapify_ups correctly" do
-      expect(BinaryMinHeap.heapify_up([4, 5, 1], 2)).to eq([1, 5, 4])
-      expect(BinaryMinHeap.heapify_up([3, 4, 5, 1], 3))
+      expect(BinaryMinHeap.heapify_up!([4, 5, 1], 2)).to eq([1, 5, 4])
+      expect(BinaryMinHeap.heapify_up!([3, 4, 5, 1], 3))
         .to eq([1, 3, 5, 4])
     end
 
@@ -38,9 +38,9 @@ describe BinaryMinHeap do
         -1 * (el1 <=> el2)
       end
 
-      expect(BinaryMinHeap.heapify_down([1, 2, 3], 0, &prc))
+      expect(BinaryMinHeap.heapify_down!([1, 2, 3], 0, &prc))
         .to eq([3, 2, 1])
-      expect(BinaryMinHeap.heapify_down([1, 5, 4, 3], 0, &prc))
+      expect(BinaryMinHeap.heapify_down!([1, 5, 4, 3], 0, &prc))
         .to eq([5, 3, 4, 1])
     end
 
@@ -49,9 +49,9 @@ describe BinaryMinHeap do
         -1 * (el1 <=> el2)
       end
 
-      expect(BinaryMinHeap.heapify_up([2, 1, 3], 2, &prc))
+      expect(BinaryMinHeap.heapify_up!([2, 1, 3], 2, &prc))
         .to eq([3, 1, 2])
-      expect(BinaryMinHeap.heapify_up([4, 3, 1, 5], 3, &prc))
+      expect(BinaryMinHeap.heapify_up!([4, 3, 1, 5], 3, &prc))
         .to eq([5, 4, 1, 3])
     end
   end
