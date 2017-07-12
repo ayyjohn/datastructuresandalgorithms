@@ -13,7 +13,7 @@ class BinaryMinHeap
   def extract
     @store[0], @store[count - 1] = @store[count - 1], @store[0]
     extracted = @store.pop
-    BinaryMinHeap.heapify_down(@store, 0, count, &@prc)
+    BinaryMinHeap.heapify_down!(@store, 0, count, &@prc)
     extracted
   end
 
@@ -23,7 +23,7 @@ class BinaryMinHeap
 
   def push(val)
     @store << val
-    BinaryMinHeap.heapify_up(@store, count - 1, count, &@prc)
+    BinaryMinHeap.heapify_up!(@store, count - 1, count, &@prc)
   end
 
   def self.child_indices(len, parent_index)
