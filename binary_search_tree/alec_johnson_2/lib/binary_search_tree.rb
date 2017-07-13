@@ -37,6 +37,11 @@ class BinarySearchTree
     tree_node
   end
 
+  def minimum(tree_node = @root)
+    tree_node = tree_node.left while tree_node.left
+    tree_node
+  end
+  
   def depth(tree_node = @root)
     return 0 unless tree_node && (tree_node.right || tree_node.left)
     1 + [depth(tree_node.right), depth(tree_node.left)].max
