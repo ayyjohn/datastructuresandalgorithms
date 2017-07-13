@@ -24,12 +24,11 @@ class BinarySearchTree
       find(value, tree_node.left)
     elsif value == tree_node.value
       tree_node
-    else
-      nil
     end
   end
 
   def delete(value)
+
   end
 
   # helper method for #delete:
