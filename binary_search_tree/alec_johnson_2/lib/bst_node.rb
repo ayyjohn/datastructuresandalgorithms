@@ -1,4 +1,4 @@
 class BSTNode
-  def initialize
+  def initialize(value)
   end
 end
