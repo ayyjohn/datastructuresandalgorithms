@@ -18,6 +18,15 @@ class BinarySearchTree
   end
 
   def find(value, tree_node = @root)
+    if value > tree_node.value && tree_node.right
+      find(value, tree_node.right)
+    elsif value < tree_node.value && tree_node.left
+      find(value, tree_node.left)
+    elsif value == tree_node.value
+      tree_node
+    else
+      nil
+    end
   end
 
   def delete(value)
@@ -25,9 +34,13 @@ class BinarySearchTree
 
   # helper method for #delete:
   def maximum(tree_node = @root)
+    tree_node = tree_node.right while tree_node.right
+    tree_node
   end
 
   def depth(tree_node = @root)
+    return 0 unless tree_node && (tree_node.right || tree_node.left)
+    1 + [depth(tree_node.right), depth(tree_node.left)].max
   end
 
   def is_balanced?(tree_node = @root)
