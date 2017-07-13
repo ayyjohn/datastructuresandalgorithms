@@ -28,7 +28,43 @@ class BinarySearchTree
   end
 
   def delete(value)
-
+    return @root = nil if @root.value == value
+    to_delete = find(value)
+    parent = find_parent(value)
+    if to_delete.left && to_delete.right
+      replacement_node = maximum(to_delete.left)
+      replacement_parent = find_parent(replacement_node.value)
+      if to_delete.value == parent.right.value
+        parent.right = replacement_node
+      else
+        parent.left = replacement_node
+      end
+      if replacement_node.left
+        replacement_parent.right = replacement_node.left
+      end
+      replacement_node.left = to_delete.left
+      replacement_node.right = to_delete.right
+    elsif to_delete.left || to_delete.right
+      if to_delete.value == parent.right.value
+        if to_delete.left
+          parent.right = to_delete.left
+        else
+          parent.right = to_delete.right
+        end
+      else
+        if to_delete.left
+          parent.left = to_delete.left
+        else
+          parent.left = to_delete.right
+        end
+      end
+    else
+      if to_delete.value == parent.right.value
+        parent.right = nil
+      else
+        parent.left = nil
+      end
+    end
   end
 
   # helper method for #delete:
@@ -55,11 +91,15 @@ class BinarySearchTree
   end
 
   def in_order_traversal(tree_node = @root, arr = [])
+    return arr unless tree_node
+    in_order_traversal(tree_node.left, arr)
+    arr << tree_node.value
+    in_order_traversal(tree_node.right, arr)
+    arr
   end
 
-
   private
-  # optional helper methods go here:
+
   def insert_helper(node, value)
     if value >= node.value
       if node.right
@@ -75,5 +115,15 @@ class BinarySearchTree
       end
     end
     value
+  end
+
+  def find_parent(value, tree_node = @root)
+    if tree_node.right.value == value || tree_node.left.value == value
+      tree_node
+    elsif value > tree_node.value && tree_node.right
+      find_parent(value, tree_node.right)
+    elsif value < tree_node.value && tree_node.left
+      find_parent(value, tree_node.left)
+    end
   end
 end
