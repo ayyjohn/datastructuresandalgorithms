@@ -16,4 +16,13 @@ describe BSTNode do
     expect(bst_node.right.value).to eq(7)
   end
 
+  it "sets #parent as an attr_accessor" do
+    root_node = BSTNode.new(2)
+    child_node = BSTNode.new(8)
+    root_node.left = child_node
+    child_node.parent = root_node
+
+    expect(root_node.left.value).to eq(8)
+    expect(child_node.parent.value).to eq(2)
+  end
 end
